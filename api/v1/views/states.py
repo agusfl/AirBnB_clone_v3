@@ -36,16 +36,18 @@ def return_states():
 def return_states_id(state_id):
     """
     Return state objects by id or 404 if the id does not exists
+    Info abort --> https://flask-restplus.readthedocs.io/en/stable/errors.html
     """
     # Traemos todos los objetos de la clase State que esten en la base de datos
     states = storage.all(State)
 
     # Se hace lo mismo que en la ruta de states pero con la condicion de si se
     # tiene la misma ID que la que se pasa como argumento, si son la misma ID
-    # entonces se hace el append y se retorna esa lista en formato JSON
+    # se retorna el valor como diccionario ya que JSON lo entiende.
 
     for key, value in states.items():
         # Condicion para ver si es la misma ID
         if states[key].id == state_id:
             return value.to_dict()
+    # Se usa el metodo abort de flask en caso que no se encuentre la ID pasada
     abort(404)
