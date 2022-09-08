@@ -9,6 +9,7 @@ Requirements:
 from api.v1.views import app_views
 from flask import jsonify  # convert to JSON data
 from models import storage
+# Import classes for task 5
 from models.amenity import Amenity
 from models.city import City
 from models.place import Place
