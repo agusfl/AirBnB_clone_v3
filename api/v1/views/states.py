@@ -48,5 +48,4 @@ def return_states_id(state_id):
         # Condicion para ver si es la misma ID
         if states[key].id == state_id:
             return value.to_dict()
-        else:
-            abort(404)
+    abort(404)
