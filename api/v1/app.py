@@ -5,6 +5,7 @@ First endpoint (route) will be to return the status of your API
 from flask import Flask
 from models import storage
 from api.v1.views import app_views
+from os import getenv  # for environmental variables
 
 # Creando una instancia de flask con el nombre del archivo nuestro
 app = Flask(__name__)
