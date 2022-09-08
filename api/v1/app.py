@@ -7,6 +7,7 @@ from models import storage
 from api.v1.views import app_views
 from os import getenv  # for environmental variables
 from flask import make_response  # for task 6 - errorhandler(404)
+from flask import jsonify  # convert to JSON data
 
 # Creando una instancia de flask con el nombre del archivo nuestro
 app = Flask(__name__)
