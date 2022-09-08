@@ -19,9 +19,10 @@ def return_states():
     Se pone la opcion de strict_slashes=False para que no haya problemas si se
     pasa un / (slash) al final de la ruta y que corra igual.
     """
+    # Traemos todos los objetos de la clase State que esten en la base de datos
     states = storage.all(State)
 
+    states_list = []
     for key, value in states.items():
-        # Si las ID coinciden se retorna el value que es la
-        # representacion del string del objeto
-        return value.to_dict()
+        states_list.append(value.to_dict())
+    return states_list
