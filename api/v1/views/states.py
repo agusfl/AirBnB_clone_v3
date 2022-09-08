@@ -40,9 +40,12 @@ def return_states_id(state_id):
     # Traemos todos los objetos de la clase State que esten en la base de datos
     states = storage.all(State)
 
-    # Se hace lo mismo que en la ruta de states pero con la condicion de la ID
+    # Se hace lo mismo que en la ruta de states pero con la condicion de si se
+    # tiene la misma ID que la que se pasa como argumento, si son la misma ID
+    # entonces se hace el append y se retorna esa lista en formato JSON
     states_list = []
     for key, value in states.items():
+        # Condicion para ver si es la misma ID
         if states[key].id == state_id:
             states_list.append(value.to_dict())
     return jsonify(states_list)
