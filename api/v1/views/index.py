@@ -18,13 +18,13 @@ from models.state import State
 from models.user import User
 
 
-@app_views.route("/status", methods=['GET'])
+@app_views.route("/status")
 def return_status():
     """Return status of GET request"""
     return jsonify({'status': 'OK'})
 
 
-@app_views.route("/stats", methods=['GET'])
+@app_views.route("/stats")
 def return_stats():
     """
     Return the number of each object by type
