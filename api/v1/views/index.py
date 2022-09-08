@@ -9,6 +9,7 @@ Requirements:
 from api.v1.views import app_views
 from flask import jsonify  # convert to JSON data
 
+
 @app_views.route("/status", methods=['GET'])
 def return_status():
     """Return status of GET request"""
