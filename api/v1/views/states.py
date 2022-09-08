@@ -18,4 +18,8 @@ def return_states():
     lo ponemos por mayor claridad nomas.
     """
     states = storage.all(State)
-    return jsonify({states.to_dict()})
+
+    for key, value in states.items():
+    # Si las ID coinciden se retorna el value que es la
+    # representacion del string del objeto
+            return value.to_dict()
