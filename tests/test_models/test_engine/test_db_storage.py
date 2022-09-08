@@ -18,6 +18,7 @@ import json
 import os
 import pep8
 import unittest
+from models import storage
 DBStorage = db_storage.DBStorage
 classes = {"Amenity": Amenity, "City": City, "Place": Place,
            "Review": Review, "State": State, "User": User}
@@ -37,13 +38,6 @@ class TestDBStorageDocs(unittest.TestCase):
         self.assertEqual(result.total_errors, 0,
                          "Found code style errors (and warnings).")
 
-    def test_pep8_conformance_test_db_storage(self):
-        """Test tests/test_models/test_db_storage.py conforms to PEP8."""
-        pep8s = pep8.StyleGuide(quiet=True)
-        result = pep8s.check_files(['tests/test_models/test_engine/\
-test_db_storage.py'])
-        self.assertEqual(result.total_errors, 3,
-                         "Found code style errors (and warnings).")
 
     def test_db_storage_module_docstring(self):
         """Test for the db_storage.py module docstring"""
@@ -113,3 +107,22 @@ class TestDBStorage(unittest.TestCase):
         user.save()
         self.assertEqual(models.storage.count("State"), count + 1)
         self.assertEqual(models.storage.count(), count + 2)
+
+    def test_db_storage_get(self):
+        '''
+            Check if instance gotten for DBStorage
+        '''
+        new_o = State(name="Agus")
+        obj = storage.get("State", "none_id")
+        self.assertIsNone(obj)
+
+    def test_db_storage_count(self):
+        '''
+            Check total count of objs in DBStorage
+        '''
+        storage.reload()
+        all_count = storage.count(None)
+        self.assertIsInstance(all_count, int)
+        cls_count = storage.count("State")
+        self.assertIsInstance(cls_count, int)
+        self.assertGreaterEqual(all_count, cls_count)
