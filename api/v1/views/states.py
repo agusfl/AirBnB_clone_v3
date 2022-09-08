@@ -30,3 +30,19 @@ def return_states():
     for key, value in states.items():
         states_list.append(value.to_dict())
     return jsonify(states_list)
+
+
+@app_views.route('/states/<state_id>', methods=['GET'], strict_slashes=False)
+def return_states_id(state_id):
+    """
+    Return state objects by id or 404 if the id does not exists
+    """
+    # Traemos todos los objetos de la clase State que esten en la base de datos
+    states = storage.all(State)
+
+    # Se hace lo mismo que en la ruta de states pero con la condicion de la ID
+    states_list = []
+    for key, value in states.items():
+        if states[key].id == id:
+            states_list.append(value.to_dict())
+    return jsonify(states_list)
