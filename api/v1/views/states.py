@@ -46,8 +46,8 @@ def return_states_id(state_id):
     states_list = []
     for key, value in states.items():
         # Condicion para ver si es la misma ID
-        if states[key].id == state_id:
+        if states[key].id != state_id:
+            abort(404)
+        else:
             states_list.append(value.to_dict())
             return jsonify(states_list)
-        else:
-            abort(404)
