@@ -25,4 +25,4 @@ def return_states():
     states_list = []
     for key, value in states.items():
         states_list.append(value.to_dict())
-    return states_list
+    return jsonify(states_list)
