@@ -26,7 +26,12 @@ def return_status():
 
 @app_views.route("/stats", methods=['GET'])
 def return_stats():
-    """Return the number of each object by type"""
+    """
+    Return the number of each object by type
+    Se usa la funcion count() que creamos en la task 3, importamos storage
+    ya que esta tiene creada las instancias de dbstorage y filestorage y asi
+    podemos usar el metodo creado: count()
+    """
     return jsonify({'amenities': storage.count(Amenity),
                     'cities': storage.count(City),
                     'places': storage.count(Place),
