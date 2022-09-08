@@ -8,7 +8,8 @@ Requirements:
 """
 from api.v1.views import app_views
 from flask import jsonify  # convert to JSON data
-from storage import count
+from models.engine.db_storage import DBStorage
+from DBStorage import count
 from models import Amenity, City, Place, Review, State, User
 
 
