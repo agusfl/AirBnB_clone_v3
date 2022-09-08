@@ -43,6 +43,6 @@ def return_states_id(state_id):
     # Se hace lo mismo que en la ruta de states pero con la condicion de la ID
     states_list = []
     for key, value in states.items():
-        if states[key].id == id:
+        if states[key].id == state_id:
             states_list.append(value.to_dict())
     return jsonify(states_list)
