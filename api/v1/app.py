@@ -6,6 +6,7 @@ from flask import Flask
 from models import storage
 from api.v1.views import app_views
 from os import getenv  # for environmental variables
+from flask import make_response  # for task 6 - errorhandler(404)
 
 # Creando una instancia de flask con el nombre del archivo nuestro
 app = Flask(__name__)
@@ -19,6 +20,15 @@ def tear_down(self):
     After each request you must remove the current SQLAlchemy Session
     """
     storage.close()
+
+
+@app.errorhandler(404)
+def not_found(error):
+    """
+    Use of decorator for error handler -> 404 (page not found)
+    Can`t use HTML, CSS you need to return JSON format.
+    """
+    return make_response(jsonify({'error': 'Not found'}), 404)
 
 
 if __name__ == '__main__':
