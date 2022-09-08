@@ -25,6 +25,7 @@ if __name__ == '__main__':
     """
     Set host IP addres and port
     Set option threaded=True for handling requests concurrently
+    getenv() --> https://www.geeksforgeeks.org/python-os-getenv-method/
     """
     host = getenv("HBNB_API_HOST", "0.0.0.0")
     port = getenv("HBNB_API_PORT", "5000")
