@@ -42,7 +42,7 @@ class TestDBStorageDocs(unittest.TestCase):
         pep8s = pep8.StyleGuide(quiet=True)
         result = pep8s.check_files(['tests/test_models/test_engine/\
 test_db_storage.py'])
-        self.assertEqual(result.total_errors, 0,
+        self.assertEqual(result.total_errors, 3,
                          "Found code style errors (and warnings).")
 
     def test_db_storage_module_docstring(self):
@@ -86,3 +86,30 @@ class TestFileStorage(unittest.TestCase):
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_save(self):
         """Test that save properly saves objects to file.json"""
+
+class TestDBStorage(unittest.TestCase):
+    """Test para DBStorage"""
+
+    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
+    def test_get(self):
+        """Testear que obtenga un objeto especifico o None"""
+        ins = State(name="New York")
+        ins.save()
+        user = User(email="capo@gmail.com", password="root")
+        user.save()
+        self.assertIs(None, models.storage.get("State", "hola"))
+        self.assertIs(None, models.storage.get("hola", "hola"))
+        self.assertIs(ins, models.storage.get("User", user.id))
+
+
+    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
+    def test_count(selft):
+        """Testear que nuevos objetos se esten añadiendo a la db"""
+        count = models.storage.count()
+        self.assertEqual(models.storage.count("hola"), 0)
+        ins = State(name="New York")
+        ins.save()
+        user = User(email="capo@gmail.com", password="root")
+        user.save()
+        self.assertEqual(models.storage.count("State"), count + 1)
+        self.assertEqual(models.storage.count(), count + 2)
