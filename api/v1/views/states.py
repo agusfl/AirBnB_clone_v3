@@ -22,6 +22,10 @@ def return_states():
     # Traemos todos los objetos de la clase State que esten en la base de datos
     states = storage.all(State)
 
+    # Se crea una lista para guardar los valores que retorna el metodo all(),
+    # estos valores son los objetos, los pasamos a un diccionario usando el
+    # metodo to_dict() tal cual pide la letra y luego lo pasamos a JSON usando
+    # el metodo jsonify
     states_list = []
     for key, value in states.items():
         states_list.append(value.to_dict())
