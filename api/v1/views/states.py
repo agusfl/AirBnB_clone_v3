@@ -91,6 +91,7 @@ def post_state():
     # Hacemos la request de la data que se pase en formato json y la pasamos
     # a un dic de python para poder trabajar con ella
     json = request.get_json()
+    obj = State(**json)
 
     # Si no es formato JSON imprimos el mensaje de error correspondiente
     if not json:
@@ -100,7 +101,7 @@ def post_state():
         abort(400, 'Missing name')
     # Si se paso "name" se crea el objeto y se guarda en la base de datos
     else:
-        storage.new(json)
+        storage.new(obj)
         storage.save()
         # Se devuelve el objeto creado y un status code de 201
         return make_response(jsonify(json), 201)
