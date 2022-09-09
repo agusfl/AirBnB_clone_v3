@@ -138,7 +138,7 @@ def update_cities_id(city_id):
         return make_response(jsonify({"error": "Not a JSON"}), 400)
 
     # Traemos todos los objetos de la clase State que esten en el storage
-    city = storage.get(State, city_id)
+    city = storage.get(City, city_id)
 
     if city is None:
         # Se usa el metodo abort de flask en caso que no se pase una ID
