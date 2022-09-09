@@ -15,7 +15,7 @@ from flask import request  # for get_json()
 
 @app_views.route("/states/<string:state_id>/cities", strict_slashes=False,
                  methods=['GET'])
-def return_cities():
+def return_cities(state_id):
     """
     Return cities - use GET request
     No es necesario poner la opcion methods aca ya que GET se hace por default,
@@ -23,13 +23,14 @@ def return_cities():
     Se pone la opcion de strict_slashes=False para que no haya problemas si se
     pasa un / (slash) al final de la ruta y que corra igual.
     """
-    # Traemos todos los objetos de la clase State que esten en la base de datos
-    states = storage.all(City)
+    # Traemos el objeto especifico de state por id con el metódo get
+    # Creado en DBStorage
+    states = storage.get("State", state_id)
 
-    # Se crea una lista para guardar los valores que retorna el metodo all(),
-    # estos valores son los objetos, los pasamos a un diccionario usando el
-    # metodo to_dict() tal cual pide la letra y luego lo pasamos a JSON usando
-    # el metodo jsonify
+    # Si city llega vacío
+    if states is None:
+        # Se usa el metodo abort de flask en caso que no se encuentre la ID
+        abort(404)
     cities = []
     for city in states.cities:
         cities.append(city.to_dict())
