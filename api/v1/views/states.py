@@ -115,29 +115,31 @@ def post_state():
                  strict_slashes=False)
 def update_states_id(state_id):
     """
-    Make a POST request HTTP to modify data.
+    Make a POST request HTTP to update data.
     """
-    try:
-        # Traemos todos los objetos de la clase State que esten en el storage
-        state = storage.get(State, state_id)
+    # Hacemos la request de la data que se pase en formato json y la
+    # pasamos a un dic de python para poder trabajar con ella
+    json = request.get_json()
 
-        if state is None:
-            # Se usa el metodo abort de flask en caso que no se pase una ID
-            abort(404)
-        else:
-            # Hacemos la request de la data que se pase en formato json y la
-            # pasamos a un dic de python para poder trabajar con ella
-            json = request.get_json()
+    if json is None:
+        return make_response(jsonify({"error": "Not a JSON"}), 400)
 
-            # keys to ignore - not change
-            keys = ["id", "created_at", "updated_at"]
+    # Traemos todos los objetos de la clase State que esten en el storage
+    state = storage.get(State, state_id)
 
-            for key, value in json.items():
-                if key not in keys:
-                    setattr(state, key, value)
-                    # Se guarda el nuevo objeto dentro del storage
-                    storage.save()
-                    # Se devuelve el objeto creado y un status code de 200
-                    return make_response(jsonify(state.to_dict()), 200)
-    except Exception as e:
-        abort(400, 'Not a JSON')
+    if state is None:
+        # Se usa el metodo abort de flask en caso que no se pase una ID
+        abort(404)
+    else:
+        # keys to ignore - not change
+        keys_ignore = ["id", "created_at", "updated_at"]
+
+        for key, value in json.items():
+            if key not in keys_ignore:
+                setattr(state, key, value)
+            else:
+                pass
+        # Se guarda el nuevo objeto dentro del storage
+        storage.save()
+        # Se devuelve el objeto creado y un status code de 200
+        return make_response(jsonify(state.to_dict()), 200)
