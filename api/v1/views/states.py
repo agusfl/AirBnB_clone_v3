@@ -91,14 +91,14 @@ def post_state():
     try:
         # Hacemos la request de la data que se pase en formato json y la
         # pasamos a un dic de python para poder trabajar con ella
-        json = request.get_json()
+        body = request.get_json()
 
         # Se crea el nuevo objeto pasandole como "kwargs" el diccionario que
-        # traemos con la request en "json"
-        obj = State(**json)
+        # traemos con la request en "body"
+        obj = State(**body)
 
-        # Si el json no tiene la variable "name" se imprime el error y su stat
-        if "name" not in json:
+        # Si el body no tiene la variable "name" se imprime el error y su stat
+        if "name" not in body:
             return jsonify('Missing name'), 400
         # Si se paso "name" se crea el objeto y se guarda en la base de datos
         else:
@@ -119,9 +119,9 @@ def update_states_id(state_id):
     """
     # Hacemos la request de la data que se pase en formato json y la
     # pasamos a un dic de python para poder trabajar con ella
-    json = request.get_json()
+    body = request.get_json()
 
-    if json is None:
+    if body is None:
         return make_response(jsonify({"error": "Not a JSON"}), 400)
 
     # Traemos todos los objetos de la clase State que esten en el storage
@@ -134,7 +134,7 @@ def update_states_id(state_id):
         # keys to ignore - not change
         keys_ignore = ["id", "created_at", "updated_at"]
 
-        for key, value in json.items():
+        for key, value in body.items():
             if key not in keys_ignore:
                 setattr(state, key, value)
             else:
