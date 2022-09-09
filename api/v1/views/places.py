@@ -51,3 +51,25 @@ def return_places_id(place_id):
         abort(404)
     # de lo contrario devolvemos el objeto pasado a json:
     return jsonify(place.to_dict())
+
+
+@app_views.route('/places/<place_id>', methods=['DELETE'],
+                 strict_slashes=False)
+def delete_places_id(place_id):
+    """
+    If the place_id is not linked to any City object, raise a 404 error
+    Returns an empty dictionary with the status code 200
+    """
+    # Traemos todos los objetos de la clase State que esten en la base de datos
+    place = storage.get(Place, place_id)
+
+    if place is None:
+        # Se usa el metodo abort de flask en caso que no se pase una ID
+        abort(404)
+    else:
+        # Usamos el metodo delete creado en cada storage
+        storage.delete(place)
+        # Guardamos los cambios
+        storage.save()
+        # Se devuelve un diccionario vacio y se retorna status 200
+        return make_response(jsonify({}), 200)
