@@ -91,18 +91,28 @@ def post_place(city_id):
     # pasamos a un dic de python para poder trabajar con ella
     body = request.get_json()
 
+    # If the HTTP request body is not valid JSON, raise a 400 error
     if body is None:
         return make_response(jsonify({"error": "Not a JSON"}), 400)
 
     # Traemos state por su "id"
     city = storage.get(City, city_id)
 
+    # If the city_id is not linked to any City object, raise a 404 error
     if city is None:
         abort(404)
 
     # Si el body no tiene la variable "user_id" se imprime el error y su stat
     if "user_id" not in body:
         return (jsonify({'error': 'Missing user_id'}), 400)
+
+    # Usamos el metodo get() de python para obtener el user_id
+    user_id = body.get("user_id")
+    # creamos un usuario usando el metodo get() que creamos nosotros
+    user = storage.get(User, user_id)
+    # If the user_id is not linked to any User object, raise a 404 error
+    if user is None:
+        abort(404)
 
     # Si el body no tiene la variable "name" se imprime el error y su status
     if "name" not in body:
