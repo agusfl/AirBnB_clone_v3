@@ -81,7 +81,7 @@ def delete_cities_id(city_id):
 
 @app_views.route("/states/<string:state_id>/cities/", strict_slashes=False,
                  methods=['POST'])
-def post_state():
+def post_state(state_id):
     """
     - You must use request.get_json from Flask to transform the HTTP body
     request to a dictionary
@@ -96,20 +96,22 @@ def post_state():
         # pasamos a un dic de python para poder trabajar con ella
         json = request.get_json()
 
-        # Se crea el nuevo objeto pasandole como "kwargs" el diccionario que
-        # traemos con la request en "json"
-        obj = State(**json)
+        if json is None:
+            return make_response(jsonify({"error": "Not a JSON"}), 400)
 
         # Si el json no tiene la variable "name" se imprime el error y su stat
         if "name" not in json:
-            return jsonify('Missing name'), 400
+            return (jsonify({'error': 'Missing name'}), 400)
         # Si se paso "name" se crea el objeto y se guarda en la base de datos
-        else:
-            storage.new(obj)
-            # Se guarda el nuevo objeto dentro del storage
-            storage.save()
-            # Se devuelve el objeto creado y un status code de 201
-            return make_response(jsonify(obj.to_dict()), 201)
+
+        # Se crea el nuevo objeto pasandole como "kwargs" el diccionario que
+        # traemos con la request en "json"
+        obj = City(**json)
+        storage.new(obj)
+        # Se guarda el nuevo objeto dentro del storage
+        storage.save()
+        # Se devuelve el objeto creado y un status code de 201
+        return make_response(jsonify(obj.to_dict()), 201)
     except Exception as e:
         abort(400, 'Not a JSON')
 
