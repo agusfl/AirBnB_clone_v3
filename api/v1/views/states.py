@@ -51,3 +51,25 @@ def return_states_id(state_id):
             return value.to_dict()
     # Se usa el metodo abort de flask en caso que no se encuentre la ID pasada
     abort(404)
+
+
+@app_views.route('/states/<state_id>', methods=['DELETE'],
+                 strict_slashes=False)
+def delete_states_id(state_id):
+    """
+    If the state_id is not linked to any State object, raise a 404 error
+    Returns an empty dictionary with the status code 200
+    """
+    # Traemos todos los objetos de la clase State que esten en la base de datos
+    states = storage.get(State, state_id)
+
+    if state is None:
+        # Se usa el metodo abort de flask en caso que no se pase una ID
+        abort(404)
+    else:
+        # Usamos el metodo delete creado en cada storage
+        storage.delete(state)
+        # Guardamos los cambios
+        storage.save()
+        # Se devuelve un diccionario vacio y se retorna status 200
+        return make_response(jsonify({}), 200)
