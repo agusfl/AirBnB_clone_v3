@@ -1,0 +1,5 @@
+pull request{
+		user : "MateoArbini",
+		title: "Code saving in the cities view ( post method )", 
+		comment: "I think it is not necessary to try except in the post method of view but a very good solution :)"
+		}
