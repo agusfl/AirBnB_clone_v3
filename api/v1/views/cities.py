@@ -112,6 +112,7 @@ def post_city(state_id):
     # Si se paso "name" se crea el objeto y se guarda en la base de datos
     # Se crea el nuevo objeto pasandole como "kwargs" el diccionario que
     # traemos con la request en "body"
+    body['state_id'] = state_id
     obj = City(**body)
     storage.new(obj)
     # Se guarda el nuevo objeto dentro del storage
