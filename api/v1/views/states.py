@@ -99,7 +99,7 @@ def post_state():
 
         # Si el json no tiene la variable "name" se imprime el error y su stat
         if "name" not in json:
-            abort(400, 'Missing name')
+            return jsonify('Missing name'), 400
         # Si se paso "name" se crea el objeto y se guarda en la base de datos
         else:
             storage.new(obj)
@@ -108,5 +108,4 @@ def post_state():
             # Se devuelve el objeto creado y un status code de 201
             return make_response(jsonify(obj.to_dict()), 201)
     except Exception as e:
-        print(e)
         abort(400, 'Not a JSON')
