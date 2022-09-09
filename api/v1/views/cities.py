@@ -13,7 +13,8 @@ from flask import make_response  # errorhandler(404)
 from flask import request  # for get_json()
 
 
-@app_views.route("/states/<string:state_id>/cities", strict_slashes=False, methods=['GET'])
+@app_views.route("/states/<string:state_id>/cities", strict_slashes=False,
+                 methods=['GET'])
 def return_cities():
     """
     Return cities - use GET request
@@ -35,25 +36,24 @@ def return_cities():
     return jsonify(cities)
 
 
-@app_views.route('/states/<string:state_id>/cities/', methods=['GET'], strict_slashes=False)
-def return_cities_id(state_id):
+@app_views.route('/cities/<string:city_id>', methods=['GET'],
+                 strict_slashes=False)
+def return_cities_id(city_id):
     """
     Return state objects by id or 404 if the id does not exists
     Info abort --> https://flask-restplus.readthedocs.io/en/stable/errors.html
     """
-    # Traemos todos los objetos de la clase State que esten en la base de datos
-    states = storage.all(State)
+    # Traemos el objeto especifico de city por id con el metódo get
+    # Creado en DBStorage
+    cities = storage.get("City", city_id)
 
-    # Se hace lo mismo que en la ruta de states pero con la condicion de si se
-    # tiene la misma ID que la que se pasa como argumento, si son la misma ID
-    # se retorna el valor como diccionario ya que JSON lo entiende.
-
-    for key, value in states.items():
-        # Condicion para ver si es la misma ID
-        if states[key].id == state_id:
-            return value.to_dict()
-    # Se usa el metodo abort de flask en caso que no se encuentre la ID pasada
-    abort(404)
+    # Si city llega vacío
+    if cities is None:
+        # Se usa el metodo abort de flask en caso que no se encuentre la ID
+        abort(404)
+    # de lo contrario devolvemos el objeto pasado a json:
+    # 1ero (<dict>) 2do (json)
+    return jsonify(cities.to_dict())
 
 
 @app_views.route('/cities/<string:city_id>', methods=['DELETE'],
@@ -78,7 +78,8 @@ def delete_cities_id(city_id):
         return make_response(jsonify({}), 200)
 
 
-@app_views.route("/states/<string:state_id>/cities/", strict_slashes=False, methods=['POST'])
+@app_views.route("/states/<string:state_id>/cities/", strict_slashes=False,
+                 methods=['POST'])
 def post_state():
     """
     - You must use request.get_json from Flask to transform the HTTP body
