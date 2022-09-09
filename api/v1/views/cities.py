@@ -81,7 +81,7 @@ def delete_cities_id(city_id):
 
 @app_views.route("/states/<string:state_id>/cities/", strict_slashes=False,
                  methods=['POST'])
-def post_state(state_id):
+def post_city(state_id):
     """
     - You must use request.get_json from Flask to transform the HTTP body
     request to a dictionary
