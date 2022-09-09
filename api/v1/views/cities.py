@@ -101,11 +101,13 @@ def post_city(state_id):
     # Traemos state por su "id"
     state = storage.get(State, state_id)
 
+    if state is None:
+        abort(404)
+
     # Si el body no tiene la variable "name" se imprime el error y su stat
     if "name" not in body:
         return (jsonify({'error': 'Missing name'}), 400)
-    if state is None:
-        abort(404)
+
     # Si se paso "name" se crea el objeto y se guarda en la base de datos
     # Se crea el nuevo objeto pasandole como "kwargs" el diccionario que
     # traemos con la request en "body"
