@@ -61,18 +61,18 @@ def return_cities_id(city_id):
                  strict_slashes=False)
 def delete_cities_id(city_id):
     """
-    If the state_id is not linked to any State object, raise a 404 error
+    If the city_id is not linked to any State object, raise a 404 error
     Returns an empty dictionary with the status code 200
     """
     # Traemos todos los objetos de la clase State que esten en la base de datos
-    state = storage.get(State, state_id)
+    city = storage.get(City, city_id)
 
-    if state is None:
+    if city is None:
         # Se usa el metodo abort de flask en caso que no se pase una ID
         abort(404)
     else:
         # Usamos el metodo delete creado en cada storage
-        storage.delete(state)
+        storage.delete(city)
         # Guardamos los cambios
         storage.save()
         # Se devuelve un diccionario vacio y se retorna status 200
