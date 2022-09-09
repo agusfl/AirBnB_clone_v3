@@ -7,6 +7,7 @@ from api.v1.views import app_views
 from flask import jsonify  # convert to JSON data
 from models import storage
 from models.city import City
+from models.user import User
 from models.place import Place
 from flask import abort
 from flask import make_response  # errorhandler(404)
