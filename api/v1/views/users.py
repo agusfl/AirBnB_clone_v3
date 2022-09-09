@@ -49,3 +49,25 @@ def return_users_id(user_id):
             return value.to_dict()
     # Se usa el metodo abort de flask en caso que no se encuentre la ID pasada
     abort(404)
+
+
+@app_views.route('/users/<user_id>', methods=['DELETE'],
+                 strict_slashes=False)
+def delete_users_id(user_id):
+    """
+    If the user_id is not linked to any User object, raise a 404 error
+    Returns an empty dictionary with the status code 200
+    """
+    # Traemos todos los objetos de la clase User que esten en la base de datos
+    user = storage.get(User, user_id)
+
+    if user is None:
+        # Se usa el metodo abort de flask en caso que no se pase una ID
+        abort(404)
+    else:
+        # Usamos el metodo delete creado en cada storage
+        storage.delete(user)
+        # Guardamos los cambios
+        storage.save()
+        # Se devuelve un diccionario vacio y se retorna status 200
+        return make_response(jsonify({}), 200)
