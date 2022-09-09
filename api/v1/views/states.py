@@ -100,7 +100,7 @@ def post_state():
     if not json:
         abort(400, 'Not a JSON')
     # Si el json no tiene la variable "name" se imprime el error con su sataus
-    elif not json['name']:
+    elif "name" not in json:
         abort(400, 'Missing name')
     # Si se paso "name" se crea el objeto y se guarda en la base de datos
     else:
