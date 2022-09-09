@@ -150,7 +150,7 @@ def update_cities_id(city_id):
 
         for key, value in body.items():
             if key not in keys_ignore:
-                setattr(state, key, value)
+                setattr(city, key, value)
             else:
                 pass
         # Se guarda el nuevo objeto dentro del storage
