@@ -95,6 +95,8 @@ def post_state(state_id):
         # Hacemos la request de la data que se pase en formato json y la
         # pasamos a un dic de python para poder trabajar con ella
         json = request.get_json()
+        # traemos state por su "id"
+        state = storage.get("State", state_id)
 
         if json is None:
             return make_response(jsonify({"error": "Not a JSON"}), 400)
@@ -104,6 +106,8 @@ def post_state(state_id):
             return (jsonify({'error': 'Missing name'}), 400)
         # Si se paso "name" se crea el objeto y se guarda en la base de datos
 
+        if state is None:
+            abort(404)
         # Se crea el nuevo objeto pasandole como "kwargs" el diccionario que
         # traemos con la request en "json"
         obj = City(**json)
