@@ -74,3 +74,10 @@ def delete_states_id(state_id):
         storage.save()
         # Se devuelve un diccionario vacio y se retorna status 200
         return make_response(jsonify({}), 200)
+
+
+@app_views.route('/states/', methods=['POST'],
+                 strict_slashes=False)
+def post_state(state_id):
+    """Create a new state"""
+    if not request.get_json():
