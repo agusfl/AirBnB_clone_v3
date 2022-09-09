@@ -122,10 +122,13 @@ def post_place(city_id):
     # Si se paso "name" se crea el objeto y se guarda en la base de datos
     # Se crea el nuevo objeto pasandole como "kwargs" el diccionario que
     # traemos con la request en "body"
-    # Se agrega el state_id al dic "body", ya que en el body de la request
+    # Se agrega las "id" al dic "body", ya que en el body de la request
     # solo se mandan los datos de json no esta la id de state_id en el body
     body['city_id'] = city_id
-    obj = City(**body)
+    body['user_id'] = user_id
+
+    # Se crea una instancia de la clase Place
+    obj = Place(**body)
 
     storage.new(obj)
     # Se guarda el nuevo objeto dentro del storage
