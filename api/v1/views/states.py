@@ -88,25 +88,25 @@ def post_state():
     the message Missing name
     - Returns the new State with the status code 201
     """
-    # Hacemos la request de la data que se pase en formato json y la pasamos
-    # a un dic de python para poder trabajar con ella
-    json = request.get_json()
-    content_type = request.headers.get('Content-Type')
+    try:
+        # Hacemos la request de la data que se pase en formato json y la
+        # pasamos a un dic de python para poder trabajar con ella
+        json = request.get_json()
+        content_type = request.headers.get('Content-Type')
 
-    # Se crea el nuevo objeto pasandole como "kwargs" el diccionario que
-    # traemos con la request en "json"
-    obj = State(**json)
+        # Se crea el nuevo objeto pasandole como "kwargs" el diccionario que
+        # traemos con la request en "json"
+        obj = State(**json)
 
-    # Si no es formato JSON imprimos el mensaje de error correspondiente
-    if content_type != 'application/json':
+        # Si el json no tiene la variable "name" se imprime el error y su stat
+        elif "name" not in json:
+            abort(400, 'Missing name')
+        # Si se paso "name" se crea el objeto y se guarda en la base de datos
+        else:
+            storage.new(obj)
+            # Se guarda el nuevo objeto dentro del storage
+            storage.save()
+            # Se devuelve el objeto creado y un status code de 201
+            return make_response(jsonify(obj.to_dict()), 201)
+    except Exception:
         abort(400, 'Not a JSON')
-    # Si el json no tiene la variable "name" se imprime el error con su sataus
-    elif "name" not in json:
-        abort(400, 'Missing name')
-    # Si se paso "name" se crea el objeto y se guarda en la base de datos
-    else:
-        storage.new(obj)
-        # Se guarda el nuevo objeto dentro del storage
-        storage.save()
-        # Se devuelve el objeto creado y un status code de 201
-        return make_response(jsonify(obj.to_dict()), 201)
