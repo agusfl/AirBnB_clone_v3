@@ -143,7 +143,7 @@ def update_cities_id(city_id):
         abort(404)
     else:
         # keys to ignore - not change
-        keys_ignore = ["id", "created_at", "created_at", "updated_at"]
+        keys_ignore = ["id", "state_id", "created_at", "updated_at"]
 
         for key, value in body.items():
             if key not in keys_ignore:
