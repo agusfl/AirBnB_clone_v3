@@ -91,32 +91,33 @@ def post_city(state_id):
     the message Missing name
     - Returns the new State with the status code 201
     """
-    try:
-        # Hacemos la request de la data que se pase en formato json y la
-        # pasamos a un dic de python para poder trabajar con ella
-        body = request.get_json()
-        # traemos state por su "id"
-        state = storage.get("State", state_id)
+    # Hacemos la request de la data que se pase en formato json y la
+    # pasamos a un dic de python para poder trabajar con ella
+    body = request.get_json()
 
-        if body is None:
-            return make_response(jsonify({"error": "Not a JSON"}), 400)
+    if body is None:
+        return make_response(jsonify({"error": "Not a JSON"}), 400)
 
-        # Si el body no tiene la variable "name" se imprime el error y su stat
-        if "name" not in body:
-            return (jsonify({'error': 'Missing name'}), 400)
-        if state is None:
-            abort(404)
-        # Si se paso "name" se crea el objeto y se guarda en la base de datos
-        # Se crea el nuevo objeto pasandole como "kwargs" el diccionario que
-        # traemos con la request en "body"
-        obj = City(**body)
-        storage.new(obj)
-        # Se guarda el nuevo objeto dentro del storage
-        storage.save()
-        # Se devuelve el objeto creado y un status code de 201
-        return make_response(jsonify(obj.to_dict()), 201)
-    except Exception as e:
-        abort(400, 'Not a JSON')
+    # traemos state por su "id"
+    state = storage.get("State", state_id)
+
+    if body is None:
+        return make_response(jsonify({"error": "Not a JSON"}), 400)
+
+    # Si el body no tiene la variable "name" se imprime el error y su stat
+    if "name" not in body:
+        return (jsonify({'error': 'Missing name'}), 400)
+    if state is None:
+        abort(404)
+    # Si se paso "name" se crea el objeto y se guarda en la base de datos
+    # Se crea el nuevo objeto pasandole como "kwargs" el diccionario que
+    # traemos con la request en "body"
+    obj = City(**body)
+    storage.new(obj)
+    # Se guarda el nuevo objeto dentro del storage
+    storage.save()
+    # Se devuelve el objeto creado y un status code de 201
+    return make_response(jsonify(obj.to_dict()), 201)
 
 
 @app_views.route('/cities/<string:city_id>', methods=['PUT'],
