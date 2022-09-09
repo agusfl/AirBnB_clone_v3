@@ -101,9 +101,6 @@ def post_city(state_id):
     # Traemos state por su "id"
     state = storage.get(State, state_id)
 
-    if body is None:
-        return make_response(jsonify({"error": "Not a JSON"}), 400)
-
     # Si el body no tiene la variable "name" se imprime el error y su stat
     if "name" not in body:
         return (jsonify({'error': 'Missing name'}), 400)
