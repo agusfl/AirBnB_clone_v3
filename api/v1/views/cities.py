@@ -156,4 +156,4 @@ def update_cities_id(city_id):
         # Se guarda el nuevo objeto dentro del storage
         storage.save()
         # Se devuelve el objeto creado y un status code de 200
-        return make_response(jsonify(state.to_dict()), 200)
+        return make_response(jsonify(city.to_dict()), 200)
