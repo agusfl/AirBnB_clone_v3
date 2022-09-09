@@ -108,4 +108,4 @@ def post_state():
         # Se guarda el nuevo objeto dentro del storage
         storage.save()
         # Se devuelve el objeto creado y un status code de 201
-        return make_response(jsonify(obj.values()), 201)
+        return make_response(jsonify(obj.to_dict()), 201)
