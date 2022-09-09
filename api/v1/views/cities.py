@@ -25,7 +25,7 @@ def return_cities(state_id):
     """
     # Traemos el objeto especifico de state por id con el metódo get
     # Creado en DBStorage
-    states = storage.get("State", state_id)
+    states = storage.get(State, state_id)
 
     # Si city llega vacío
     if states is None:
@@ -46,7 +46,7 @@ def return_cities_id(city_id):
     """
     # Traemos el objeto especifico de city por id con el metódo get
     # Creado en DBStorage
-    cities = storage.get("City", city_id)
+    cities = storage.get(City, city_id)
 
     # Si city llega vacío
     if cities is None:
@@ -65,7 +65,7 @@ def delete_cities_id(city_id):
     Returns an empty dictionary with the status code 200
     """
     # Traemos todos los objetos de la clase State que esten en la base de datos
-    city = storage.get("City", city_id)
+    city = storage.get(City, city_id)
 
     if city is None:
         # Se usa el metodo abort de flask en caso que no se pase una ID
@@ -99,7 +99,7 @@ def post_city(state_id):
         return make_response(jsonify({"error": "Not a JSON"}), 400)
 
     # traemos state por su "id"
-    state = storage.get("State", state_id)
+    state = storage.get(State, state_id)
 
     if body is None:
         return make_response(jsonify({"error": "Not a JSON"}), 400)
