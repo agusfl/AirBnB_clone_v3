@@ -113,7 +113,7 @@ def post_state():
 
 @app_views.route('/states/<state_id>', methods=['PUT'],
                  strict_slashes=False)
-def delete_states_id(state_id):
+def update_states_id(state_id):
     """
     Make a POST request HTTP to modify data.
     """
