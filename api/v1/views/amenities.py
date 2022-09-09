@@ -60,7 +60,7 @@ def delete_amenities_id(amenity_id):
     If the amenity_id is not linked to any Amenity object, raise a 404 error
     Returns an empty dictionary with the status code 200
     """
-    # Traemos todos los objetos de la clase Amenity que esten en la base de datos
+    # Traemos todos los objetos de la clase Amenity dentro de la base de datos
     amenity = storage.get(Amenity, amenity_id)
 
     if amenity is None:
