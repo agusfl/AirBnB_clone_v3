@@ -29,7 +29,7 @@ def return_amenities():
     amenities_list = []
     for key, value in amenities.items():
         amenities_list.append(value.to_dict())
-    return jsonify(statamenities_listes_list)
+    return jsonify(amenities_list)
 
 
 @app_views.route('/amenities/<amenity_id>', methods=['GET'],
