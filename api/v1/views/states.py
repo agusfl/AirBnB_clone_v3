@@ -109,3 +109,35 @@ def post_state():
             return make_response(jsonify(obj.to_dict()), 201)
     except Exception as e:
         abort(400, 'Not a JSON')
+
+
+@app_views.route('/states/<state_id>', methods=['PUT'],
+                 strict_slashes=False)
+def delete_states_id(state_id):
+    """
+    Make a POST request HTTP to modify data.
+    """
+    try:
+        # Traemos todos los objetos de la clase State que esten en el storage
+        state = storage.get(State, state_id)
+
+        if state is None:
+            # Se usa el metodo abort de flask en caso que no se pase una ID
+            abort(404)
+        else:
+            # Hacemos la request de la data que se pase en formato json y la
+            # pasamos a un dic de python para poder trabajar con ella
+            json = request.get_json()
+
+            # keys to ignore - not change
+            keys = ["id", "created_at", "updated_at"]
+
+            for key, value in json.items():
+                if key not in keys:
+                    setattr(state, key, value)
+                    # Se guarda el nuevo objeto dentro del storage
+                    storage.save()
+                    # Se devuelve el objeto creado y un status code de 200
+                    return make_response(jsonify(state.to_dict()), 200)
+    except Exception as e:
+        abort(400, 'Not a JSON')
