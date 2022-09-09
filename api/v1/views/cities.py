@@ -24,7 +24,7 @@ def return_cities():
     pasa un / (slash) al final de la ruta y que corra igual.
     """
     # Traemos todos los objetos de la clase State que esten en la base de datos
-    states = storage.all(State)
+    states = storage.all(City)
 
     # Se crea una lista para guardar los valores que retorna el metodo all(),
     # estos valores son los objetos, los pasamos a un diccionario usando el
