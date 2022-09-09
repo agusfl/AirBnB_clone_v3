@@ -14,7 +14,7 @@ from flask import request  # for get_json()
 
 @app_views.route("/cities/<city_id>/places", strict_slashes=False,
                  methods=['GET'])
-def return_cities(city_id):
+def return_places(city_id):
     """
     Return places - use GET request
     Cada lugar (places) esta directamente relacionado con la ciudad, no puede
