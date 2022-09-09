@@ -13,7 +13,7 @@ from flask import make_response  # errorhandler(404)
 from flask import request  # for get_json()
 
 
-@app_views.route("/states/<string:state_id>/cities", strict_slashes=False,
+@app_views.route("/states/<state_id>/cities", strict_slashes=False,
                  methods=['GET'])
 def return_cities(state_id):
     """
@@ -37,7 +37,7 @@ def return_cities(state_id):
     return jsonify(cities)
 
 
-@app_views.route('/cities/<string:city_id>', methods=['GET'],
+@app_views.route('/cities/<city_id>', methods=['GET'],
                  strict_slashes=False)
 def return_cities_id(city_id):
     """
@@ -57,7 +57,7 @@ def return_cities_id(city_id):
     return jsonify(cities.to_dict())
 
 
-@app_views.route('/cities/<string:city_id>', methods=['DELETE'],
+@app_views.route('/cities/<city_id>', methods=['DELETE'],
                  strict_slashes=False)
 def delete_cities_id(city_id):
     """
@@ -79,7 +79,7 @@ def delete_cities_id(city_id):
         return make_response(jsonify({}), 200)
 
 
-@app_views.route("/states/<string:state_id>/cities/", strict_slashes=False,
+@app_views.route("/states/<state_id>/cities/", strict_slashes=False,
                  methods=['POST'])
 def post_city(state_id):
     """
@@ -125,7 +125,7 @@ def post_city(state_id):
     return make_response(jsonify(obj.to_dict()), 201)
 
 
-@app_views.route('/cities/<string:city_id>', methods=['PUT'],
+@app_views.route('/cities/<city_id>', methods=['PUT'],
                  strict_slashes=False)
 def update_cities_id(state_id):
     """
