@@ -99,7 +99,7 @@ def post_state():
         obj = State(**json)
 
         # Si el json no tiene la variable "name" se imprime el error y su stat
-        elif "name" not in json:
+        if "name" not in json:
             abort(400, 'Missing name')
         # Si se paso "name" se crea el objeto y se guarda en la base de datos
         else:
