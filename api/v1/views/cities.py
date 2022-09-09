@@ -65,7 +65,7 @@ def delete_cities_id(city_id):
     Returns an empty dictionary with the status code 200
     """
     # Traemos todos los objetos de la clase State que esten en la base de datos
-    city = storage.get(City, city_id)
+    city = storage.get("City", city_id)
 
     if city is None:
         # Se usa el metodo abort de flask en caso que no se pase una ID
