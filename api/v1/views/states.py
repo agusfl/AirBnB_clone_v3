@@ -91,13 +91,14 @@ def post_state():
     # Hacemos la request de la data que se pase en formato json y la pasamos
     # a un dic de python para poder trabajar con ella
     json = request.get_json()
+    content_type = request.headers.get('Content-Type')
 
     # Se crea el nuevo objeto pasandole como "kwargs" el diccionario que
     # traemos con la request en "json"
     obj = State(**json)
 
     # Si no es formato JSON imprimos el mensaje de error correspondiente
-    if not json:
+    if content_type != 'application/json':
         abort(400, 'Not a JSON')
     # Si el json no tiene la variable "name" se imprime el error con su sataus
     elif "name" not in json:
