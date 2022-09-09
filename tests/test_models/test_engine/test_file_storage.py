@@ -141,17 +141,14 @@ class TestFileStorage(unittest.TestCase):
         new_obj = classes['Place']()
         dic[new_obj.__class__.__name__ + "." + new_obj.id] = new_obj
         FileStorage._FileStorage__objects = new_dict
-        # self.assertTrue(storage.get('Place', new_obj.id) is not None)
         self.assertTrue(storage.get(None, None) is None)
         self.assertTrue(storage.get('User', None) is None)
-        # self.assertTrue(storage.get(None, new_obj.id) is None)
 
     def test_count_fileStorage(self):
-        ''' mas testeos de la función count'''
+        ''' Check total count of objs in FileStorage'''
         storage = FileStorage()
         dic = {}
         new_obj = classes['State']()
         dic[new_obj.__class__.__name__ + "." + dic.id] = dic
         FileStorage._FileStorage__objects = new_dict
-        # self.assertTrue(storage.count('Base Model') == 0)
         self.assertTrue(storage.count('State') > 0)
