@@ -98,7 +98,7 @@ def post_city(state_id):
     if body is None:
         return make_response(jsonify({"error": "Not a JSON"}), 400)
 
-    # traemos state por su "id"
+    # Traemos state por su "id"
     state = storage.get(State, state_id)
 
     if body is None:
@@ -112,11 +112,15 @@ def post_city(state_id):
     # Si se paso "name" se crea el objeto y se guarda en la base de datos
     # Se crea el nuevo objeto pasandole como "kwargs" el diccionario que
     # traemos con la request en "body"
+    # Se agrega el state_id al dic "body", ya que en el body de la request
+    # solo se mandan los datos de json no esta la id de state_id en el body
     body['state_id'] = state_id
     obj = City(**body)
+
     storage.new(obj)
     # Se guarda el nuevo objeto dentro del storage
     storage.save()
+
     # Se devuelve el objeto creado y un status code de 201
     return make_response(jsonify(obj.to_dict()), 201)
 
