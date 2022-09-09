@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """
-Create a new view for City objects that handles all default RESTFul API
+Create a new view for Amenity objects that handles all default RESTFul API
 actions.
 """
 from api.v1.views import app_views
@@ -57,10 +57,10 @@ def return_amenities_id(amenity_id):
                  strict_slashes=False)
 def delete_amenities_id(amenity_id):
     """
-    If the amenity_id is not linked to any State object, raise a 404 error
+    If the amenity_id is not linked to any Amenity object, raise a 404 error
     Returns an empty dictionary with the status code 200
     """
-    # Traemos todos los objetos de la clase State que esten en la base de datos
+    # Traemos todos los objetos de la clase Amenity que esten en la base de datos
     amenity = storage.get(Amenity, amenity_id)
 
     if amenity is None:
@@ -122,7 +122,7 @@ def update_amenities_id(amenity_id):
     if body is None:
         return make_response(jsonify({"error": "Not a JSON"}), 400)
 
-    # Traemos todos los objetos de la clase State que esten en el storage
+    # Traemos todos los objetos de la clase Amenity que esten en el storage
     amenity = storage.get(Amenity, amenity_id)
 
     if amenity is None:
