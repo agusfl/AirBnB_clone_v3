@@ -127,7 +127,7 @@ def post_city(state_id):
 
 @app_views.route('/cities/<city_id>', methods=['PUT'],
                  strict_slashes=False)
-def update_cities_id(state_id):
+def update_cities_id(city_id):
     """
     Make a POST request HTTP to update data.
     """
@@ -146,7 +146,7 @@ def update_cities_id(state_id):
         abort(404)
     else:
         # keys to ignore - not change
-        keys_ignore = ["id", "created_at", "updated_at"]
+        keys_ignore = ["id", "created_at", "created_at", "updated_at"]
 
         for key, value in body.items():
             if key not in keys_ignore:
