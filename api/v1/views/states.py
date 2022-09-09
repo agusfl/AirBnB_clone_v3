@@ -9,6 +9,7 @@ from models import storage
 from models.state import State
 from flask import abort
 from flask import make_response  # errorhandler(404)
+from flask import request  # for get_json()
 
 
 @app_views.route("/states", strict_slashes=False, methods=['GET'])
@@ -76,8 +77,23 @@ def delete_states_id(state_id):
         return make_response(jsonify({}), 200)
 
 
-@app_views.route('/states/', methods=['POST'],
-                 strict_slashes=False)
-def post_state(state_id):
-    """Create a new state"""
-    if not request.get_json():
+@app_views.route("/states", strict_slashes=False, methods=['POST'])
+def post_state():
+    """
+    - You must use request.get_json from Flask to transform the HTTP body
+    request to a dictionary
+    - If the HTTP body request is not valid JSON, raise a 400 error with the
+    message Not a JSON
+    - If the dictionary doesn’t contain the key name, raise a 400 error with
+    the message Missing name
+    - Returns the new State with the status code 201
+    """
+    # Hacemos la request de la data que se pase en formato json y la pasamos
+    # a un dic de python para poder trabajar con ella
+    json = request.get_json()
+
+    print(json)
+
+    if not json:
+        abort(400, 'Not a JSON')
+    
