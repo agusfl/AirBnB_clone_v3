@@ -92,7 +92,6 @@ def post_state():
         # Hacemos la request de la data que se pase en formato json y la
         # pasamos a un dic de python para poder trabajar con ella
         json = request.get_json()
-        content_type = request.headers.get('Content-Type')
 
         # Se crea el nuevo objeto pasandole como "kwargs" el diccionario que
         # traemos con la request en "json"
@@ -108,5 +107,6 @@ def post_state():
             storage.save()
             # Se devuelve el objeto creado y un status code de 201
             return make_response(jsonify(obj.to_dict()), 201)
-    except Exception:
+    except Exception as e:
+        print(e)
         abort(400, 'Not a JSON')
