@@ -71,3 +71,40 @@ def delete_users_id(user_id):
         storage.save()
         # Se devuelve un diccionario vacio y se retorna status 200
         return make_response(jsonify({}), 200)
+
+
+@app_views.route("/users", strict_slashes=False, methods=['POST'])
+def post_user():
+    """
+    - You must use request.get_json from Flask to transform the HTTP body
+    request to a dictionary
+    - If the HTTP body request is not valid JSON, raise a 400 error with the
+    message Not a JSON
+    - If the dictionary doesn’t contain the key name, raise a 400 error with
+    the message Missing name
+    - Returns the new State with the status code 201
+    """
+    # Hacemos la request de la data que se pase en formato json y la
+    # pasamos a un dic de python para poder trabajar con ella
+    body = request.get_json()
+
+    if body is None:
+        return make_response(jsonify({"error": "Not a JSON"}), 400)
+
+    # Se crea el nuevo objeto pasandole como "kwargs" el diccionario que
+    # traemos con la request en "body"
+    obj = User(**body)
+
+    # Si el body no tiene la variable "email" se imprime el error y su status
+    if "email" not in body:
+        return jsonify('Missing email'), 400
+    # Si el body no tiene la variable "password" se imprime el error y su stat
+    if "password" not in body:
+        return jsonify('Missing password'), 400
+    # Si se paso "email" y "pass" se crea el objeto y se guarda en el storage
+    else:
+        storage.new(obj)
+        # Se guarda el nuevo objeto dentro del storage
+        storage.save()
+        # Se devuelve el objeto creado y un status code de 201
+        return make_response(jsonify(obj.to_dict()), 201)
