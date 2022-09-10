@@ -1,7 +1,6 @@
 #!/usr/bin/python3
 """
-Create a new view for State objects that handles all default RESTFul API
-actions.
+Create a new view for User objects that handles all default HTTP methods.
 """
 from api.v1.views import app_views
 from flask import jsonify  # convert to JSON data
@@ -15,7 +14,7 @@ from flask import request  # for get_json()
 @app_views.route("/users", strict_slashes=False, methods=['GET'])
 def return_users():
     """
-    Return users - use GET request
+    Return users - use GET request.
     """
     # Traemos todos los objetos de la clase User que esten en la base de datos
     users = storage.all(User)
@@ -34,7 +33,7 @@ def return_users():
                  strict_slashes=False)
 def return_users_id(user_id):
     """
-    Return amenity objects by id or 404 if the id does not exists
+    Return users objects by id or 404 if the id does not exists
     """
     # Traemos todos los objetos de la clase User que esten en la base de datos
     users = storage.all(User)
@@ -44,7 +43,7 @@ def return_users_id(user_id):
     # se retorna el valor como diccionario ya que JSON lo entiende.
 
     for key, value in users.items():
-        # Condicion para ver si es la misma ID
+        # Condicion para ver si tienen la misma ID
         if users[key].id == user_id:
             return value.to_dict()
     # Se usa el metodo abort de flask en caso que no se encuentre la ID pasada
@@ -55,15 +54,13 @@ def return_users_id(user_id):
                  strict_slashes=False)
 def delete_users_id(user_id):
     """
-    If the user_id is not linked to any User object, raise a 404 error
-    Returns an empty dictionary with the status code 200
+    Delete a User object by id.
     """
     # Se trae el objeto del User que se pase la "id"
     user = storage.get(User, user_id)
 
     # If the user_id is not linked to any User object, raise a 404 error
     if user is None:
-        # Se usa el metodo abort de flask en caso que no se pase una ID
         abort(404)
     else:
         # Usamos el metodo delete creado en cada storage
@@ -77,13 +74,7 @@ def delete_users_id(user_id):
 @app_views.route("/users", strict_slashes=False, methods=['POST'])
 def post_user():
     """
-    - You must use request.get_json from Flask to transform the HTTP body
-    request to a dictionary
-    - If the HTTP body request is not valid JSON, raise a 400 error with the
-    message Not a JSON
-    - If the dictionary doesn’t contain the key name, raise a 400 error with
-    the message Missing name
-    - Returns the new State with the status code 201
+    Create a User object.
     """
     # Hacemos la request de la data que se pase en formato json y la
     # pasamos a un dic de python para poder trabajar con ella
@@ -116,7 +107,7 @@ def post_user():
                  strict_slashes=False)
 def update_users_id(user_id):
     """
-    Make a POST request HTTP to update data.
+    Make a PUT request HTTP to update data.
     """
     # Hacemos la request de la data que se pase en formato json y la
     # pasamos a un dic de python para poder trabajar con ella
@@ -131,7 +122,6 @@ def update_users_id(user_id):
 
     # If the user_id is not linked to any User object, raise a 404 error
     if user is None:
-        # Se usa el metodo abort de flask en caso que no se pase una ID
         abort(404)
     else:
         # keys to ignore - not change
