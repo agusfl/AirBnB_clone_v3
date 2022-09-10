@@ -148,6 +148,7 @@ def update_places_id(place_id):
     # pasamos a un dic de python para poder trabajar con ella
     body = request.get_json()
 
+    # If the HTTP request body is not valid JSON, raise a 400 error
     if body is None:
         return make_response(jsonify({"error": "Not a JSON"}), 400)
 
@@ -156,7 +157,6 @@ def update_places_id(place_id):
 
     # If the place_id is not linked to any Place object, raise a 404 error
     if place is None:
-        # Se usa el metodo abort de flask en caso que no se pase una ID
         abort(404)
     else:
         # keys to ignore - not change
