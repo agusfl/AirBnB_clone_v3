@@ -19,7 +19,7 @@ def return_amenities():
     """
     Return amenities - use GET request
     """
-    # Traemos todos los objetos de la clase State que esten en la base de datos
+    # Traemos todos los objetos de la clase Amenity que esten en el storage
     amenities = storage.all(Amenity)
 
     # Se crea una lista para guardar los valores que retorna el metodo all(),
@@ -38,10 +38,10 @@ def return_amenities_id(amenity_id):
     """
     Return amenity objects by id or 404 if the id does not exists
     """
-    # Traemos todos los objetos de la clase State que esten en la base de datos
+    # Traemos todos los objetos de la clase Amenity que esten en el storage
     amenities = storage.all(Amenity)
 
-    # Se hace lo mismo que en la ruta de states pero con la condicion de si se
+    # Se hace lo mismo que en la ruta de amenities pero con la condicion de si
     # tiene la misma ID que la que se pasa como argumento, si son la misma ID
     # se retorna el valor como diccionario ya que JSON lo entiende.
 
@@ -60,11 +60,11 @@ def delete_amenities_id(amenity_id):
     If the amenity_id is not linked to any Amenity object, raise a 404 error
     Returns an empty dictionary with the status code 200
     """
-    # Traemos todos los objetos de la clase Amenity dentro de la base de datos
+    # Se trae el objeto Amenity del cual se pase la "id"
     amenity = storage.get(Amenity, amenity_id)
 
+    # If the amenity_id is not linked to any Amenity object, raise a 404 error
     if amenity is None:
-        # Se usa el metodo abort de flask en caso que no se pase una ID
         abort(404)
     else:
         # Usamos el metodo delete creado en cada storage
@@ -90,6 +90,7 @@ def post_amenity():
     # pasamos a un dic de python para poder trabajar con ella
     body = request.get_json()
 
+    # If the HTTP request body is not valid JSON, raise a 400 error
     if body is None:
         return make_response(jsonify({"error": "Not a JSON"}), 400)
 
@@ -119,14 +120,15 @@ def update_amenities_id(amenity_id):
     # pasamos a un dic de python para poder trabajar con ella
     body = request.get_json()
 
+    # If the HTTP request body is not valid JSON, raise a 400 error
     if body is None:
         return make_response(jsonify({"error": "Not a JSON"}), 400)
 
-    # Traemos todos los objetos de la clase Amenity que esten en el storage
+    # Se trae el objeto Amenity del cual se pase la "id"
     amenity = storage.get(Amenity, amenity_id)
 
+    # If the amenity_id is not linked to any Amenity object, raise a 404 error
     if amenity is None:
-        # Se usa el metodo abort de flask en caso que no se pase una ID
         abort(404)
     else:
         # keys to ignore - not change
