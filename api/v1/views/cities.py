@@ -27,10 +27,10 @@ def return_cities(state_id):
     # Creado en DBStorage
     states = storage.get(State, state_id)
 
-    # Si city llega vacío
+    # If the state_id is not linked to any State object, raise a 404 error
     if states is None:
-        # Se usa el metodo abort de flask en caso que no se encuentre la ID
         abort(404)
+
     cities = []
     for city in states.cities:
         cities.append(city.to_dict())
@@ -48,12 +48,10 @@ def return_cities_id(city_id):
     # Creado en DBStorage
     cities = storage.get(City, city_id)
 
-    # Si city llega vacío
+    # If the city_id is not linked to any City object, raise a 404 error
     if cities is None:
-        # Se usa el metodo abort de flask en caso que no se encuentre la ID
         abort(404)
-    # de lo contrario devolvemos el objeto pasado a json:
-    # 1ero (<dict>) 2do (json)
+    # Se devuelve el objeto pasado a json:
     return jsonify(cities.to_dict())
 
 
@@ -64,11 +62,11 @@ def delete_cities_id(city_id):
     If the city_id is not linked to any State object, raise a 404 error
     Returns an empty dictionary with the status code 200
     """
-    # Traemos todos los objetos de la clase State que esten en la base de datos
+    # Se trae el objeto City del cual se pase la "id"
     city = storage.get(City, city_id)
 
+    # If the city_id is not linked to any City object, raise a 404 error
     if city is None:
-        # Se usa el metodo abort de flask en caso que no se pase una ID
         abort(404)
     else:
         # Usamos el metodo delete creado en cada storage
@@ -95,12 +93,14 @@ def post_city(state_id):
     # pasamos a un dic de python para poder trabajar con ella
     body = request.get_json()
 
+    # If the HTTP body request is not a valid JSON, raise a 400 error
     if body is None:
         return make_response(jsonify({"error": "Not a JSON"}), 400)
 
     # Traemos state por su "id"
     state = storage.get(State, state_id)
 
+    # If the state_id is not linked to any State object, raise a 404 error
     if state is None:
         abort(404)
 
@@ -134,14 +134,15 @@ def update_cities_id(city_id):
     # pasamos a un dic de python para poder trabajar con ella
     body = request.get_json()
 
+    # If the HTTP request body is not valid JSON, raise a 400 error
     if body is None:
         return make_response(jsonify({"error": "Not a JSON"}), 400)
 
     # Se trae el objeto de la ciudad que se pase la "id"
     city = storage.get(City, city_id)
 
+    # If the city_id is not linked to any City object, raise a 404 error
     if city is None:
-        # Se usa el metodo abort de flask en caso que no se pase una ID
         abort(404)
     else:
         # keys to ignore - not change
