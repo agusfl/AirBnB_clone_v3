@@ -137,7 +137,7 @@ def update_cities_id(city_id):
     if body is None:
         return make_response(jsonify({"error": "Not a JSON"}), 400)
 
-    # Traemos todos los objetos de la clase State que esten en el storage
+    # Se trae el objeto de la ciudad que se pase la "id"
     city = storage.get(City, city_id)
 
     if city is None:
