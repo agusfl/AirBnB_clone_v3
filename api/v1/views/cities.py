@@ -1,7 +1,6 @@
 #!/usr/bin/python3
 """
-Create a new view for City objects that handles all default RESTFul API
-actions.
+Create a new view for City objects that handles all default HTTP methods.
 """
 from api.v1.views import app_views
 from flask import jsonify  # convert to JSON data
@@ -23,8 +22,8 @@ def return_cities(state_id):
     Se pone la opcion de strict_slashes=False para que no haya problemas si se
     pasa un / (slash) al final de la ruta y que corra igual.
     """
-    # Traemos el objeto especifico de state por id con el metódo get
-    # Creado en DBStorage
+    # Traemos el objeto especifico de state por id con el metódo get creado en
+    # DBStorage.
     states = storage.get(State, state_id)
 
     # If the state_id is not linked to any State object, raise a 404 error
@@ -41,11 +40,10 @@ def return_cities(state_id):
                  strict_slashes=False)
 def return_cities_id(city_id):
     """
-    Return state objects by id or 404 if the id does not exists
-    Info abort --> https://flask-restplus.readthedocs.io/en/stable/errors.html
+    Return City objects by id or 404 if the id does not exists
     """
-    # Traemos el objeto especifico de city por id con el metódo get
-    # Creado en DBStorage
+    # Traemos el objeto especifico de city por id con el metódo get creado en
+    # DBStorage
     cities = storage.get(City, city_id)
 
     # If the city_id is not linked to any City object, raise a 404 error
@@ -59,8 +57,7 @@ def return_cities_id(city_id):
                  strict_slashes=False)
 def delete_cities_id(city_id):
     """
-    If the city_id is not linked to any State object, raise a 404 error
-    Returns an empty dictionary with the status code 200
+    Delete a City object by id.
     """
     # Se trae el objeto City del cual se pase la "id"
     city = storage.get(City, city_id)
@@ -81,13 +78,7 @@ def delete_cities_id(city_id):
                  methods=['POST'])
 def post_city(state_id):
     """
-    - You must use request.get_json from Flask to transform the HTTP body
-    request to a dictionary
-    - If the HTTP body request is not valid JSON, raise a 400 error with the
-    message Not a JSON
-    - If the dictionary doesn’t contain the key name, raise a 400 error with
-    the message Missing name
-    - Returns the new State with the status code 201
+    Create a City object.
     """
     # Hacemos la request de la data que se pase en formato json y la
     # pasamos a un dic de python para poder trabajar con ella
@@ -97,14 +88,14 @@ def post_city(state_id):
     if body is None:
         return make_response(jsonify({"error": "Not a JSON"}), 400)
 
-    # Traemos state por su "id"
+    # Traemos State object por su "id"
     state = storage.get(State, state_id)
 
     # If the state_id is not linked to any State object, raise a 404 error
     if state is None:
         abort(404)
 
-    # Si el body no tiene la variable "name" se imprime el error y su stat
+    # Si el body no tiene la variable "name" se imprime el error y su status
     if "name" not in body:
         return (jsonify({'error': 'Missing name'}), 400)
 
@@ -128,7 +119,7 @@ def post_city(state_id):
                  strict_slashes=False)
 def update_cities_id(city_id):
     """
-    Make a POST request HTTP to update data.
+    Make a PUT request HTTP to update data.
     """
     # Hacemos la request de la data que se pase en formato json y la
     # pasamos a un dic de python para poder trabajar con ella
