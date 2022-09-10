@@ -58,9 +58,10 @@ def delete_users_id(user_id):
     If the user_id is not linked to any User object, raise a 404 error
     Returns an empty dictionary with the status code 200
     """
-    # Traemos todos los objetos de la clase User que esten en la base de datos
+    # Se trae el objeto del User que se pase la "id"
     user = storage.get(User, user_id)
 
+    # If the user_id is not linked to any User object, raise a 404 error
     if user is None:
         # Se usa el metodo abort de flask en caso que no se pase una ID
         abort(404)
@@ -88,6 +89,7 @@ def post_user():
     # pasamos a un dic de python para poder trabajar con ella
     body = request.get_json()
 
+    # If the HTTP body request is not valid JSON, raise a 400 error
     if body is None:
         return make_response(jsonify({"error": "Not a JSON"}), 400)
 
@@ -120,12 +122,14 @@ def update_users_id(user_id):
     # pasamos a un dic de python para poder trabajar con ella
     body = request.get_json()
 
+    # If the HTTP body request is not valid JSON, raise a 400 error
     if body is None:
         return make_response(jsonify({"error": "Not a JSON"}), 400)
 
-    # Traemos todos los objetos de la clase User que esten en el storage
+    # Se trae el objeto del User que se pase la "id"
     user = storage.get(User, user_id)
 
+    # If the user_id is not linked to any User object, raise a 404 error
     if user is None:
         # Se usa el metodo abort de flask en caso que no se pase una ID
         abort(404)
