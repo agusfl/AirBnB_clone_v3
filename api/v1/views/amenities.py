@@ -1,13 +1,10 @@
 #!/usr/bin/python3
 """
-Create a new view for Amenity objects that handles all default RESTFul API
-actions.
+Create a new view for Amenity objects that handles all default HTTP methods.
 """
 from api.v1.views import app_views
 from flask import jsonify  # convert to JSON data
 from models import storage
-from models.state import State
-from models.city import City
 from models.amenity import Amenity
 from flask import abort
 from flask import make_response  # errorhandler(404)
@@ -17,7 +14,7 @@ from flask import request  # for get_json()
 @app_views.route("/amenities", strict_slashes=False, methods=['GET'])
 def return_amenities():
     """
-    Return amenities - use GET request
+    Return amenities - use GET request.
     """
     # Traemos todos los objetos de la clase Amenity que esten en el storage
     amenities = storage.all(Amenity)
@@ -36,7 +33,7 @@ def return_amenities():
                  strict_slashes=False)
 def return_amenities_id(amenity_id):
     """
-    Return amenity objects by id or 404 if the id does not exists
+    Return amenity objects by id or 404 if the id does not exists.
     """
     # Traemos todos los objetos de la clase Amenity que esten en el storage
     amenities = storage.all(Amenity)
@@ -46,7 +43,7 @@ def return_amenities_id(amenity_id):
     # se retorna el valor como diccionario ya que JSON lo entiende.
 
     for key, value in amenities.items():
-        # Condicion para ver si es la misma ID
+        # Condicion para ver si tienen la misma ID
         if amenities[key].id == amenity_id:
             return value.to_dict()
     # Se usa el metodo abort de flask en caso que no se encuentre la ID pasada
@@ -57,8 +54,7 @@ def return_amenities_id(amenity_id):
                  strict_slashes=False)
 def delete_amenities_id(amenity_id):
     """
-    If the amenity_id is not linked to any Amenity object, raise a 404 error
-    Returns an empty dictionary with the status code 200
+    Delete a Amenity object by id.
     """
     # Se trae el objeto Amenity del cual se pase la "id"
     amenity = storage.get(Amenity, amenity_id)
@@ -78,13 +74,7 @@ def delete_amenities_id(amenity_id):
 @app_views.route("/amenities", strict_slashes=False, methods=['POST'])
 def post_amenity():
     """
-    - You must use request.get_json from Flask to transform the HTTP body
-    request to a dictionary
-    - If the HTTP body request is not valid JSON, raise a 400 error with the
-    message Not a JSON
-    - If the dictionary doesn’t contain the key name, raise a 400 error with
-    the message Missing name
-    - Returns the new State with the status code 201
+    Create a Amenity object.
     """
     # Hacemos la request de la data que se pase en formato json y la
     # pasamos a un dic de python para poder trabajar con ella
@@ -98,7 +88,7 @@ def post_amenity():
     # traemos con la request en "body"
     obj = Amenity(**body)
 
-    # Si el body no tiene la variable "name" se imprime el error y su stat
+    # Si el body no tiene la variable "name" se imprime el error y su status
     if "name" not in body:
         return jsonify('Missing name'), 400
     # Si se paso "name" se crea el objeto y se guarda en la base de datos
@@ -114,7 +104,7 @@ def post_amenity():
                  strict_slashes=False)
 def update_amenities_id(amenity_id):
     """
-    Make a POST request HTTP to update data.
+    Make a PUT request HTTP to update data.
     """
     # Hacemos la request de la data que se pase en formato json y la
     # pasamos a un dic de python para poder trabajar con ella
