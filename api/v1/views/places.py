@@ -31,9 +31,9 @@ def return_places(city_id):
         # Se usa el metodo abort de flask en caso que no se encuentre la ID
         abort(404)
     places = []
-    for place in city.cities:
-        cities.append(place.to_dict())
-    return jsonify(cities)
+    for place in city.places:
+        places.append(place.to_dict())
+    return jsonify(places)
 
 
 @app_views.route('/places/<place_id>', methods=['GET'],
