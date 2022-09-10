@@ -58,7 +58,7 @@ def return_states_id(state_id):
                  strict_slashes=False)
 def delete_states_id(state_id):
     """
-    Delete a State object.
+    Delete a State object by id.
     """
     # Se trae el objeto del State que se pase la "id"
     state = storage.get(State, state_id)
