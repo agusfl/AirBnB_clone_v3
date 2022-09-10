@@ -146,7 +146,7 @@ def update_review_id(review_id):
     if body is None:
         return make_response(jsonify({"error": "Not a JSON"}), 400)
 
-    # Se trae el objeto del review que se pase la "id"
+    # Se trae el objeto review del que se pase la "id"
     review = storage.get(Review, review_id)
 
     # If the review_id is not linked to any Review object, raise a 404 error
