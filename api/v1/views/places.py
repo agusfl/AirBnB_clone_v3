@@ -40,7 +40,7 @@ def return_places(city_id):
                  strict_slashes=False)
 def return_places_id(place_id):
     """
-    Return state objects by id or 404 if the id does not exists
+    Return place objects by id or 404 if the id does not exists
     """
     # Traemos el objeto especifico de place por id con el metódo get
     # Creado en DBStorage
@@ -58,10 +58,10 @@ def return_places_id(place_id):
                  strict_slashes=False)
 def delete_places_id(place_id):
     """
-    If the place_id is not linked to any City object, raise a 404 error
+    If the place_id is not linked to any Place object, raise a 404 error
     Returns an empty dictionary with the status code 200
     """
-    # Traemos todos los objetos de la clase State que esten en la base de datos
+    # Se trae el objeto Place que se pase la "id"
     place = storage.get(Place, place_id)
 
     if place is None:
