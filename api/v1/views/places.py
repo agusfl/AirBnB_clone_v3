@@ -136,3 +136,38 @@ def post_place(city_id):
 
     # Se devuelve el objeto creado y un status code de 201
     return make_response(jsonify(obj.to_dict()), 201)
+
+
+@app_views.route('/places/<place_id>', methods=['PUT'],
+                 strict_slashes=False)
+def update_places_id(place_id):
+    """
+    Make a POST request HTTP to update data.
+    """
+    # Hacemos la request de la data que se pase en formato json y la
+    # pasamos a un dic de python para poder trabajar con ella
+    body = request.get_json()
+
+    if body is None:
+        return make_response(jsonify({"error": "Not a JSON"}), 400)
+
+    # Se trae el objeto del place que se pase la "id"
+    place = storage.get(Place, place_id)
+
+    # If the place_id is not linked to any Place object, raise a 404 error
+    if place is None:
+        # Se usa el metodo abort de flask en caso que no se pase una ID
+        abort(404)
+    else:
+        # keys to ignore - not change
+        keys_ignore = ["id", "user_id", "city_id", "created_at", "updated_at"]
+
+        for key, value in body.items():
+            if key not in keys_ignore:
+                setattr(place, key, value)
+            else:
+                pass
+        # Se guarda el nuevo objeto dentro del storage
+        storage.save()
+        # Se devuelve el objeto creado y un status code de 200
+        return make_response(jsonify(place.to_dict()), 200)
