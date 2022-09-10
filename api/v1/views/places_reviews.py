@@ -59,8 +59,7 @@ def return_reviews_id(review_id):
                  strict_slashes=False)
 def delete_review_id(review_id):
     """
-    If the review_id is not linked to any Review object, raise a 404 error
-    Returns an empty dictionary with the status code 200
+    Delete a review object
     """
     # Se trae el objeto Review que se pase la "id"
     review = storage.get(Review, review_id)
@@ -81,13 +80,7 @@ def delete_review_id(review_id):
                  methods=['POST'])
 def post_review(place_id):
     """
-    - You must use request.get_json from Flask to transform the HTTP body
-    request to a dictionary
-    - If the HTTP body request is not valid JSON, raise a 400 error with the
-    message Not a JSON
-    - If the dictionary doesn’t contain the key name, raise a 400 error with
-    the message Missing name
-    - Returns the new State with the status code 201
+    Create a Review object
     """
     # Hacemos la request de la data que se pase en formato json y la
     # pasamos a un dic de python para poder trabajar con ella
@@ -98,7 +91,7 @@ def post_review(place_id):
         return make_response(jsonify({"error": "Not a JSON"}), 400)
 
     # Traemos place por su "id"
-    palce = storage.get(Place, place_id)
+    place = storage.get(Place, place_id)
 
     # If the place_id is not linked to any Place object, raise a 404 error
     if place is None:
@@ -143,7 +136,7 @@ def post_review(place_id):
                  strict_slashes=False)
 def update_review_id(review_id):
     """
-    Make a POST request HTTP to update data.
+    Make a PUT request HTTP to update data.
     """
     # Hacemos la request de la data que se pase en formato json y la
     # pasamos a un dic de python para poder trabajar con ella
