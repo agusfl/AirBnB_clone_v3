@@ -64,8 +64,8 @@ def delete_places_id(place_id):
     # Se trae el objeto Place que se pase la "id"
     place = storage.get(Place, place_id)
 
+    # If the place_id is not linked to any Place object, raise a 404 error
     if place is None:
-        # Se usa el metodo abort de flask en caso que no se pase una ID
         abort(404)
     else:
         # Usamos el metodo delete creado en cada storage
