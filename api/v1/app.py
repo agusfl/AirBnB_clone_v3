@@ -8,11 +8,14 @@ from api.v1.views import app_views
 from os import getenv  # for environmental variables
 from flask import make_response  # for task 6 - errorhandler(404)
 from flask import jsonify  # convert to JSON data
+from flask_cors import CORS
 
 # Creando una instancia de flask con el nombre del archivo nuestro
 app = Flask(__name__)
 # Register the blueprint app_views to your Flask instance app
 app.register_blueprint(app_views)
+# Allow CORS (Cross origin resource shearing)
+cors = CORS(app, resources={r"/api/*": {"origins": "0.0.0.0"}})
 
 
 @app.teardown_appcontext
