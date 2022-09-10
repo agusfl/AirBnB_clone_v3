@@ -62,9 +62,10 @@ def delete_states_id(state_id):
     If the state_id is not linked to any State object, raise a 404 error
     Returns an empty dictionary with the status code 200
     """
-    # Traemos todos los objetos de la clase State que esten en la base de datos
+    # Se trae el objeto del State que se pase la "id"
     state = storage.get(State, state_id)
 
+    # If the state_id is not linked to any State object, raise a 404 error
     if state is None:
         # Se usa el metodo abort de flask en caso que no se pase una ID
         abort(404)
@@ -88,27 +89,28 @@ def post_state():
     the message Missing name
     - Returns the new State with the status code 201
     """
-    try:
-        # Hacemos la request de la data que se pase en formato json y la
-        # pasamos a un dic de python para poder trabajar con ella
-        body = request.get_json()
+    # Hacemos la request de la data que se pase en formato json y la
+    # pasamos a un dic de python para poder trabajar con ella
+    body = request.get_json()
 
-        # Se crea el nuevo objeto pasandole como "kwargs" el diccionario que
-        # traemos con la request en "body"
-        obj = State(**body)
+    # If the HTTP body request is not valid JSON, raise a 400 error
+    if body is None:
+        return make_response(jsonify({"error": "Not a JSON"}), 400)
 
-        # Si el body no tiene la variable "name" se imprime el error y su stat
-        if "name" not in body:
-            return jsonify('Missing name'), 400
-        # Si se paso "name" se crea el objeto y se guarda en la base de datos
-        else:
-            storage.new(obj)
-            # Se guarda el nuevo objeto dentro del storage
-            storage.save()
-            # Se devuelve el objeto creado y un status code de 201
-            return make_response(jsonify(obj.to_dict()), 201)
-    except Exception as e:
-        abort(400, 'Not a JSON')
+    # Se crea el nuevo objeto pasandole como "kwargs" el diccionario que
+    # traemos con la request en "body"
+    obj = State(**body)
+
+    # Si el body no tiene la variable "name" se imprime el error y su status
+    if "name" not in body:
+        return jsonify('Missing name'), 400
+    # Si se paso "name" se crea el objeto y se guarda en la base de datos
+    else:
+        storage.new(obj)
+        # Se guarda el nuevo objeto dentro del storage
+        storage.save()
+        # Se devuelve el objeto creado y un status code de 201
+        return make_response(jsonify(obj.to_dict()), 201)
 
 
 @app_views.route('/states/<state_id>', methods=['PUT'],
@@ -121,14 +123,15 @@ def update_states_id(state_id):
     # pasamos a un dic de python para poder trabajar con ella
     body = request.get_json()
 
+    # If the HTTP body request is not valid JSON, raise a 400 error
     if body is None:
         return make_response(jsonify({"error": "Not a JSON"}), 400)
 
-    # Traemos todos los objetos de la clase State que esten en el storage
+    # Se trae el objeto del State que se pase la "id"
     state = storage.get(State, state_id)
 
+    # Se usa el metodo abort de flask en caso que no se pase una ID
     if state is None:
-        # Se usa el metodo abort de flask en caso que no se pase una ID
         abort(404)
     else:
         # keys to ignore - not change
