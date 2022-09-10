@@ -97,7 +97,7 @@ def post_review(place_id):
     if body is None:
         return make_response(jsonify({"error": "Not a JSON"}), 400)
 
-    # Traemos state por su "id"
+    # Traemos place por su "id"
     palce = storage.get(Place, place_id)
 
     # If the place_id is not linked to any Place object, raise a 404 error
@@ -116,7 +116,7 @@ def post_review(place_id):
     if user is None:
         abort(404)
 
-    # Si el body no tiene la variable "name" se imprime el error y su status
+    # Si el body no tiene la variable "text" se imprime el error y su status
     if "text" not in body:
         return (jsonify({'error': 'Missing text'}), 400)
 
@@ -124,7 +124,7 @@ def post_review(place_id):
     # datos Se crea el nuevo objeto pasandole como "kwargs" el diccionario que
     # traemos con la request en "body".
     # Se agrega las "id" al dic "body", ya que en el body de la request
-    # solo se mandan los datos de json no esta la id de state_id en el body
+    # solo se mandan los datos de json no estan las id en el body
     body['place_id'] = place_id
     body['user_id'] = user_id
 
