@@ -1,7 +1,6 @@
 #!/usr/bin/python3
 """
-Create a new view for State objects that handles all default RESTFul API
-actions.
+Create a new view for State objects that handles all default HTTP methods.
 """
 from api.v1.views import app_views
 from flask import jsonify  # convert to JSON data
@@ -15,7 +14,7 @@ from flask import request  # for get_json()
 @app_views.route("/states", strict_slashes=False, methods=['GET'])
 def return_states():
     """
-    Return states - use GET request
+    Return states - use GET request.
     No es necesario poner la opcion methods aca ya que GET se hace por default,
     lo ponemos por mayor claridad nomas.
     Se pone la opcion de strict_slashes=False para que no haya problemas si se
@@ -37,7 +36,7 @@ def return_states():
 @app_views.route('/states/<state_id>', methods=['GET'], strict_slashes=False)
 def return_states_id(state_id):
     """
-    Return state objects by id or 404 if the id does not exists
+    Return state objects by id or 404 if the id does not exists.
     Info abort --> https://flask-restplus.readthedocs.io/en/stable/errors.html
     """
     # Traemos todos los objetos de la clase State que esten en la base de datos
@@ -48,7 +47,7 @@ def return_states_id(state_id):
     # se retorna el valor como diccionario ya que JSON lo entiende.
 
     for key, value in states.items():
-        # Condicion para ver si es la misma ID
+        # Condicion para ver si tienen la misma ID
         if states[key].id == state_id:
             return value.to_dict()
     # Se usa el metodo abort de flask en caso que no se encuentre la ID pasada
@@ -59,8 +58,7 @@ def return_states_id(state_id):
                  strict_slashes=False)
 def delete_states_id(state_id):
     """
-    If the state_id is not linked to any State object, raise a 404 error
-    Returns an empty dictionary with the status code 200
+    Delete a State object.
     """
     # Se trae el objeto del State que se pase la "id"
     state = storage.get(State, state_id)
@@ -81,13 +79,7 @@ def delete_states_id(state_id):
 @app_views.route("/states", strict_slashes=False, methods=['POST'])
 def post_state():
     """
-    - You must use request.get_json from Flask to transform the HTTP body
-    request to a dictionary
-    - If the HTTP body request is not valid JSON, raise a 400 error with the
-    message Not a JSON
-    - If the dictionary doesn’t contain the key name, raise a 400 error with
-    the message Missing name
-    - Returns the new State with the status code 201
+    Create a State object.
     """
     # Hacemos la request de la data que se pase en formato json y la
     # pasamos a un dic de python para poder trabajar con ella
@@ -117,7 +109,7 @@ def post_state():
                  strict_slashes=False)
 def update_states_id(state_id):
     """
-    Make a POST request HTTP to update data.
+    Make a PUT request HTTP to update data.
     """
     # Hacemos la request de la data que se pase en formato json y la
     # pasamos a un dic de python para poder trabajar con ella
